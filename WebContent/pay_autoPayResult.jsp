@@ -10,6 +10,7 @@
 <%@ page import="java.net.URLDecoder"%>
 <%@ page import="net.sf.json.JSONObject"%>
 <%@ include file="config.jsp" %>
+<%@ include file="escapeUtil.jsp" %>
 <% request.setCharacterEncoding("UTF-8");%>
 <%
 //로거 얻기
@@ -96,6 +97,7 @@ try{
 }catch(Exception e){
     logger.error("["+REQ_HEADER.get("mchtTrdNo")+"][SHA256 HASHING] Hashing Fail! : " + e.toString());
 }finally{
+    //[주의] hashPlain에는 라이센스키가 평문으로 포함됩니다. 운영 적용 시 이 로그를 제거하거나 키 부분을 마스킹하십시오.
     logger.info("["+REQ_HEADER.get("mchtTrdNo")+"][SHA256 HASHING] Plain Text["+hashPlain+"] ---> Cipher Text["+hashCipher+"]");
     REQ_BODY.put("pktHash", hashCipher); //해쉬 결과 값 세팅
 }
@@ -224,67 +226,67 @@ try{
     <table>
         <tr>
             <td class="left">mchtId[상점아이디]</td>
-            <td class="right"><%= respParam.get("mchtId") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("mchtId")) %></td>
         </tr>
         <tr>
             <td class="left">ver[버전]</td>
-            <td class="right"><%= respParam.get("ver") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("ver")) %></td>
         </tr>
         <tr>
             <td class="left">method[결제수단]</td>
-            <td class="right"><%= respParam.get("method") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("method")) %></td>
         </tr>
         <tr>
             <td class="left">bizType[업무구분]</td>
-            <td class="right"><%= respParam.get("bizType") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("bizType")) %></td>
         </tr>
         <tr>
             <td class="left">encCd[암호화구분]</td>
-            <td class="right"><%= respParam.get("encCd") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("encCd")) %></td>
         </tr>
         <tr>
             <td class="left">mchtTrdNo[상점주문번호]</td>
-            <td class="right"><%= respParam.get("mchtTrdNo") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("mchtTrdNo")) %></td>
         </tr>
         <tr>
             <td class="left">trdNo[세틀뱅크 거래번호]</td>
-            <td class="right"><%= respParam.get("trdNo") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("trdNo")) %></td>
         </tr>
         <tr>
             <td class="left">trdDt[요청일자]</td>
-            <td class="right"><%= respParam.get("trdDt") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("trdDt")) %></td>
         </tr>
         <tr>
             <td class="left">trdTm[요청시간]</td>
-            <td class="right"><%= respParam.get("trdTm") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("trdTm")) %></td>
         </tr>
         <tr>
             <td class="left">outStatCd[거래상태코드]</td>
-            <td class="right"><%= respParam.get("outStatCd") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("outStatCd")) %></td>
         </tr>
         <tr>
             <td class="left">outRsltCd[거래결과코드]</td>
-            <td class="right"><%= respParam.get("outRsltCd") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("outRsltCd")) %></td>
         </tr>
         <tr>
             <td class="left">outRsltMsg[결과메세지]</td>
-            <td class="right"><%= respParam.get("outRsltMsg") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("outRsltMsg")) %></td>
         </tr>
         <tr>
             <td class="left">pktHash[해쉬값]</td>
-            <td class="right"><%= respParam.get("pktHash") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("pktHash")) %></td>
         </tr>
         <tr>
             <td class="left">telCo[통신사]</td>
-            <td class="right"><%= respParam.get("telCo") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("telCo")) %></td>
         </tr>
         <tr>
             <td class="left">trdAmt[거래금액]</td>
-            <td class="right"><%= respParam.get("trdAmt") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("trdAmt")) %></td>
         </tr>
         <tr>
             <td class="left">billKey[자동결제키]</td>
-            <td class="right"><%= respParam.get("billKey") %></td>
+            <td class="right"><%= escapeHtml(respParam.get("billKey")) %></td>
         </tr>
         
         <tr>

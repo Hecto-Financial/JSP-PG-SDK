@@ -115,6 +115,7 @@ try{
 }catch(Exception e){
     notiLogger.error("["+mchtTrdNo+"][SHA256 HASHING] Hashing Fail! : " + e.toString());
 }finally{
+    //[주의] hashPlain에는 라이센스키가 평문으로 포함됩니다. 운영 적용 시 이 로그를 제거하거나 키 부분을 마스킹하십시오.
     notiLogger.info("["+mchtTrdNo+"][SHA256 HASHING] Plain Text["+hashPlain+"] ---> Cipher Text["+hashCipher+"]");
 }
 
