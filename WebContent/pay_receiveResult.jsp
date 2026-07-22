@@ -7,6 +7,7 @@
 <%@ page import="org.slf4j.Logger"%>
 <%@ page import="org.slf4j.LoggerFactory"%>
 <%@ include file="config.jsp" %>
+<%@ include file="escapeUtil.jsp" %>
 <% request.setCharacterEncoding("utf-8"); %>
 <%
 /** 로거 얻기 */
@@ -99,30 +100,30 @@ logger.info(logStr.toString());
 <script>
 //결제 결과 세팅
 var _PAY_RESULT = {
-        mchtId :        "<%= RES_PARAMS.get("mchtId") %>",
-        outStatCd :     "<%= RES_PARAMS.get("outStatCd") %>",
-        outRsltCd :     "<%= RES_PARAMS.get("outRsltCd") %>",
-        outRsltMsg :    "<%= RES_PARAMS.get("outRsltMsg") %>",
-        method :        "<%= RES_PARAMS.get("method") %>",
-        mchtTrdNo :     "<%= RES_PARAMS.get("mchtTrdNo") %>",
-        mchtCustId :    "<%= RES_PARAMS.get("mchtCustId") %>",
-        trdNo :         "<%= RES_PARAMS.get("trdNo") %>",
-        trdAmt :        "<%= RES_PARAMS.get("trdAmt") %>",
-        mchtParam :     "<%= RES_PARAMS.get("mchtParam") %>",
-        authDt :        "<%= RES_PARAMS.get("authDt") %>",
-        authNo :        "<%= RES_PARAMS.get("authNo") %>",
-        reqIssueDt :  	"<%= RES_PARAMS.get("reqIssueDt") %>",
-        intMon :        "<%= RES_PARAMS.get("intMon") %>",
-        fnNm :          "<%= RES_PARAMS.get("fnNm") %>",
-        fnCd :          "<%= RES_PARAMS.get("fnCd") %>",
-        pointTrdNo :    "<%= RES_PARAMS.get("pointTrdNo") %>",
-        pointTrdAmt :   "<%= RES_PARAMS.get("pointTrdAmt") %>",
-        cardTrdAmt :    "<%= RES_PARAMS.get("cardTrdAmt") %>",
-        vtlAcntNo :     "<%= RES_PARAMS.get("vtlAcntNo") %>",
-        expireDt :      "<%= RES_PARAMS.get("expireDt") %>",
-        cphoneNo :      "<%= RES_PARAMS.get("cphoneNo") %>",
-        billKey :       "<%= RES_PARAMS.get("billKey") %>",
-        csrcAmt :       "<%= RES_PARAMS.get("csrcAmt") %>"
+        mchtId :        "<%= escapeJs(RES_PARAMS.get("mchtId")) %>",
+        outStatCd :     "<%= escapeJs(RES_PARAMS.get("outStatCd")) %>",
+        outRsltCd :     "<%= escapeJs(RES_PARAMS.get("outRsltCd")) %>",
+        outRsltMsg :    "<%= escapeJs(RES_PARAMS.get("outRsltMsg")) %>",
+        method :        "<%= escapeJs(RES_PARAMS.get("method")) %>",
+        mchtTrdNo :     "<%= escapeJs(RES_PARAMS.get("mchtTrdNo")) %>",
+        mchtCustId :    "<%= escapeJs(RES_PARAMS.get("mchtCustId")) %>",
+        trdNo :         "<%= escapeJs(RES_PARAMS.get("trdNo")) %>",
+        trdAmt :        "<%= escapeJs(RES_PARAMS.get("trdAmt")) %>",
+        mchtParam :     "<%= escapeJs(RES_PARAMS.get("mchtParam")) %>",
+        authDt :        "<%= escapeJs(RES_PARAMS.get("authDt")) %>",
+        authNo :        "<%= escapeJs(RES_PARAMS.get("authNo")) %>",
+        reqIssueDt :  	"<%= escapeJs(RES_PARAMS.get("reqIssueDt")) %>",
+        intMon :        "<%= escapeJs(RES_PARAMS.get("intMon")) %>",
+        fnNm :          "<%= escapeJs(RES_PARAMS.get("fnNm")) %>",
+        fnCd :          "<%= escapeJs(RES_PARAMS.get("fnCd")) %>",
+        pointTrdNo :    "<%= escapeJs(RES_PARAMS.get("pointTrdNo")) %>",
+        pointTrdAmt :   "<%= escapeJs(RES_PARAMS.get("pointTrdAmt")) %>",
+        cardTrdAmt :    "<%= escapeJs(RES_PARAMS.get("cardTrdAmt")) %>",
+        vtlAcntNo :     "<%= escapeJs(RES_PARAMS.get("vtlAcntNo")) %>",
+        expireDt :      "<%= escapeJs(RES_PARAMS.get("expireDt")) %>",
+        cphoneNo :      "<%= escapeJs(RES_PARAMS.get("cphoneNo")) %>",
+        billKey :       "<%= escapeJs(RES_PARAMS.get("billKey")) %>",
+        csrcAmt :       "<%= escapeJs(RES_PARAMS.get("csrcAmt")) %>"
 };
 
 //main으로 결과 전달
@@ -147,99 +148,99 @@ function sendResult()
     <table>
         <tr>
             <td class="left">mchtId</td>
-            <td class="right"><%= RES_PARAMS.get("mchtId") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("mchtId")) %></td>
         </tr>
         <tr>
             <td class="left">outStatCd</td>
-            <td class="right"><%= RES_PARAMS.get("outStatCd") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("outStatCd")) %></td>
         </tr>
         <tr>
             <td class="left">outRsltCd</td>
-            <td class="right"><%= RES_PARAMS.get("outRsltCd") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("outRsltCd")) %></td>
         </tr>
         <tr>
             <td class="left">outRsltMsg</td>
-            <td class="right"><%= RES_PARAMS.get("outRsltMsg") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("outRsltMsg")) %></td>
         </tr>
         <tr>
             <td class="left">method</td>
-            <td class="right"><%= RES_PARAMS.get("method") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("method")) %></td>
         </tr>
         <tr>
             <td class="left">mchtTrdNo</td>
-            <td class="right"><%= RES_PARAMS.get("mchtTrdNo") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("mchtTrdNo")) %></td>
         </tr>
         <tr>
             <td class="left">mchtCustId</td>
-            <td class="right"><%= RES_PARAMS.get("mchtCustId") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("mchtCustId")) %></td>
         </tr>
         <tr>
             <td class="left">trdNo</td>
-            <td class="right"><%= RES_PARAMS.get("trdNo") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("trdNo")) %></td>
         </tr>
         <tr>
             <td class="left">trdAmt</td>
-            <td class="right"><%= RES_PARAMS.get("trdAmt") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("trdAmt")) %></td>
         </tr>
         <tr>
             <td class="left">mchtParam</td>
-            <td class="right"><%= RES_PARAMS.get("mchtParam") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("mchtParam")) %></td>
         </tr>
         <tr>
             <td class="left">authDt</td>
-            <td class="right"><%= RES_PARAMS.get("authDt") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("authDt")) %></td>
         </tr>
         <tr>
             <td class="left">authNo</td>
-            <td class="right"><%= RES_PARAMS.get("authNo") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("authNo")) %></td>
         </tr>
         <tr>
             <td class="left">reqIssueDt</td>
-            <td class="right"><%= RES_PARAMS.get("reqIssueDt") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("reqIssueDt")) %></td>
         </tr>
         <tr>
             <td class="left">intMon</td>
-            <td class="right"><%= RES_PARAMS.get("intMon") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("intMon")) %></td>
         </tr>
         <tr>
             <td class="left">fnNm</td>
-            <td class="right"><%= RES_PARAMS.get("fnNm") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("fnNm")) %></td>
         </tr>
         <tr>
             <td class="left">fnCd</td>
-            <td class="right"><%= RES_PARAMS.get("fnCd") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("fnCd")) %></td>
         </tr>
         <tr>
             <td class="left">pointTrdNo</td>
-            <td class="right"><%= RES_PARAMS.get("pointTrdNo") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("pointTrdNo")) %></td>
         </tr>
         <tr>
             <td class="left">pointTrdAmt</td>
-            <td class="right"><%= RES_PARAMS.get("pointTrdAmt") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("pointTrdAmt")) %></td>
         </tr>
         <tr>
             <td class="left">cardTrdAmt</td>
-            <td class="right"><%= RES_PARAMS.get("cardTrdAmt") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("cardTrdAmt")) %></td>
         </tr>
         <tr>
             <td class="left">vtlAcntNo</td>
-            <td class="right"><%= RES_PARAMS.get("vtlAcntNo") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("vtlAcntNo")) %></td>
         </tr>
         <tr>
             <td class="left">expireDt</td>
-            <td class="right"><%= RES_PARAMS.get("expireDt") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("expireDt")) %></td>
         </tr>
         <tr>
             <td class="left">cphoneNo</td>
-            <td class="right"><%= RES_PARAMS.get("cphoneNo") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("cphoneNo")) %></td>
         </tr>
         <tr>
             <td class="left">billKey</td>
-            <td class="right"><%= RES_PARAMS.get("billKey") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("billKey")) %></td>
         </tr>
         <tr>
             <td class="left">csrcAmt</td>
-            <td class="right"><%= RES_PARAMS.get("csrcAmt") %></td>
+            <td class="right"><%= escapeHtml(RES_PARAMS.get("csrcAmt")) %></td>
         </tr>
 
         <tr>

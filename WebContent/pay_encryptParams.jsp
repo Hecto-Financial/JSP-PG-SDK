@@ -8,6 +8,18 @@
 <%@ page import="com.settle.pg.EncryptUtil"%>
 <%@ include file="config.jsp" %>
 <%
+/** ============================================================================================
+ *  [운영 적용 시 필수 확인]
+ *  이 페이지는 결제 요청 파라미터의 SHA256 해시와 AES256 암호문을 생성해 반환하는 샘플입니다.
+ *
+ *  1. 이 페이지를 인증(로그인 세션 등) 없이 외부에 노출하지 마십시오.
+ *     인증 없이 노출되면 누구나 임의 금액에 대한 유효한 pktHash를 얻을 수 있어
+ *     해시의 목적인 거래금액 위변조 방지가 무력화됩니다.
+ *  2. 거래금액(plainTrdAmt)을 요청 파라미터로 받아 그대로 해시하는 것은 테스트 편의를 위한
+ *     구성입니다. 운영에서는 가맹점 서버에 저장된 주문 정보에서 금액을 조회하여 해시를
+ *     생성하고, 클라이언트가 전달한 금액은 신뢰하지 마십시오.
+ *  ============================================================================================ */
+
 /** 로거 얻기 */
 Logger logger = LoggerFactory.getLogger("trans");
 
@@ -55,6 +67,7 @@ try{
     logger.error("["+mchtTrdNo+"][SHA256 HASHING] Hashing Fail! : " + e.toString());
     throw e;
 }finally{
+    //[주의] hashPlain에는 라이센스키가 평문으로 포함됩니다. 운영 적용 시 이 로그를 제거하거나 키 부분을 마스킹하십시오.
     logger.info("["+mchtTrdNo+"][SHA256 HASHING] Plain Text["+hashPlain+"] ---> Cipher Text["+hashCipher+"]");
     rsp.put("hashCipher", hashCipher); // sha256 해쉬 결과 저장
 }
