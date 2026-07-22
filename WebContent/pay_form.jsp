@@ -27,6 +27,19 @@
 <script type="text/javascript" src="<%= PAYMENT_SERVER %>/resources/js/v1/SettlePG_v1.2.js"></script>
 <script type="text/javascript">
 
+/** 결제수단별 테스트 상점아이디(운영 적용 시 자사 발급 MID로 변경) */
+var MID_BY_TYPE = {
+    card : 'nxca_jt_il',                    //신용카드 인증 결제
+    mobile : 'nxhp_pl_il',                  //휴대폰 일반 결제
+    mobileAuto : 'nxhp_pl_ma',              //휴대폰 월 자동 결제(1회차)
+    point : 'nxpt_kt_il',                   //KT클립포인트
+    payco : 'hecto_test',                   //페이코 간편결제
+    kakao : 'hecto_test',                   //카카오페이 간편결제
+    nvpay : 'hecto_test',                   //네이버페이 간편결제
+    kakaoAuto : '<%= SUBS_MID_KAKAO %>',    //카카오페이 정기결제(빌키발급)
+    nvpayAuto : '<%= SUBS_MID_NAVER %>'     //네이버페이 정기결제(빌키발급)
+};
+
 /** 날짜 및 주문정보 재설정 */
 function init(type){
     var curr_date = new Date();
@@ -48,6 +61,13 @@ function init(type){
     $('#STPG_payForm2 [name="trdTm"]').val(hours + mins + secs);//요청시간 세팅
     $('#STPG_payForm2 [name="mchtTrdNo"]').val("AUTOPAY" + year + month + day + hours + mins + secs + random4);//주문번호 세팅
 
+    //버튼 간 이동 시 이전 버튼에서 세팅된 값 초기화
+    $('#STPG_payForm [name="autoPayType"]').val('');
+    $('#STPG_payForm [name="corpPayCode"]').val('');
+
+    //결제수단에 맞는 상점아이디 세팅(매핑에 없는 결제수단은 기본 MID 사용)
+    $('#STPG_payForm [name="mchtId"]').val( MID_BY_TYPE[type] || '<%= PG_MID %>' );
+
     //휴대폰 자동결제인 경우
     if( type === 'mobileAuto'){
         $('#STPG_payForm [name="method"]').val('mobile');
@@ -61,6 +81,14 @@ function init(type){
     }else if( type === 'nvpay'){//네이버페이 간편결제 결제수단 및 구분 코드 설정
     	$('#STPG_payForm [name="method"]').val('corp');
         $('#STPG_payForm [name="corpPayCode"]').val('NVP'); // NVP:네이버페이
+    }else if( type === 'kakaoAuto'){//카카오페이 정기결제 빌키 발급(1회차) - 정기결제 전용 상점아이디 사용
+    	$('#STPG_payForm [name="method"]').val('corp');
+        $('#STPG_payForm [name="corpPayCode"]').val('KKP'); // KKP:카카오페이
+        $('#STPG_payForm [name="autoPayType"]').val('A');   // A:자동결제(정기결제)
+    }else if( type === 'nvpayAuto'){//네이버페이 정기결제 빌키 발급(1회차) - 정기결제 전용 상점아이디 사용(카카오와 상이)
+    	$('#STPG_payForm [name="method"]').val('corp');
+        $('#STPG_payForm [name="corpPayCode"]').val('NVP'); // NVP:네이버페이
+        $('#STPG_payForm [name="autoPayType"]').val('A');   // A:자동결제(정기결제)
     }else{
         $('#STPG_payForm [name="method"]').val(type);
     }
@@ -156,6 +184,45 @@ function autoPay(){
     $('#STPG_payForm2').attr("method", "post");
     $('#STPG_payForm2').attr("target", "_self");
     $('#STPG_payForm2').submit();
+}
+
+/** 간편(카카오페이/네이버페이) 정기결제 2회차 이후 API 버튼 동작 - 정기결제/빌키 상태조회/빌키 삭제 */
+function subsApi(action){
+    var curr_date = new Date();
+    var year = curr_date.getFullYear().toString();
+    var month = ("0" + (curr_date.getMonth() + 1)).slice(-2).toString();
+    var day = ("0" + (curr_date.getDate())).slice(-2).toString();
+    var hours = ("0" + curr_date.getHours()).slice(-2).toString();
+    var mins = ("0" + curr_date.getMinutes()).slice(-2).toString();
+    var secs = ("0" + curr_date.getSeconds()).slice(-2).toString();
+    var random4 = ("000" + Math.random() * 10000 ).slice(-4).toString();
+
+    $('#STPG_payForm3 [name="trdDt"]').val(year + month + day);  //요청일자 세팅
+    $('#STPG_payForm3 [name="trdTm"]').val(hours + mins + secs); //요청시간 세팅
+    $('#STPG_payForm3 [name="mchtTrdNo"]').val("SUBSPAY" + year + month + day + hours + mins + secs + random4);//주문번호 세팅
+
+    if( action === 'pay'){
+        $('#STPG_payForm3 [name="bizType"]').val('B3'); //B3:정기결제
+        $('#STPG_payForm3').attr("action", "pay_subsPayResult.jsp");
+    }else if( action === 'status'){
+        $('#STPG_payForm3 [name="bizType"]').val('S1'); //S1:빌키 상태조회
+        $('#STPG_payForm3').attr("action", "pay_subsManageResult.jsp");
+    }else{
+        $('#STPG_payForm3 [name="bizType"]').val('C1'); //C1:빌키 삭제
+        $('#STPG_payForm3').attr("action", "pay_subsManageResult.jsp");
+    }
+    $('#STPG_payForm3').attr("method", "post");
+    $('#STPG_payForm3').attr("target", "_self");
+    $('#STPG_payForm3').submit();
+}
+
+/** 간편결제사 선택 변경 시 정기결제 상점아이디 교체(카카오페이/네이버페이 상이) */
+function subsMidChange(code){
+    if( code === 'KKP' ){
+        $('#STPG_payForm3 [name="mchtId"]').val('<%= SUBS_MID_KAKAO %>');
+    }else{
+        $('#STPG_payForm3 [name="mchtId"]').val('<%= SUBS_MID_NAVER %>');
+    }
 }
 
 /** 가상계좌/010가상계좌 입금테스트 */
@@ -321,6 +388,8 @@ function goResult(){
             <input type="button" class="payBtn" value="간편결제_페이코" onclick="pay('payco')"/>
             <input type="button" class="payBtn" value="간편결제_카카오페이" onclick="pay('kakao')"/>
             <input type="button" class="payBtn" value="간편결제_네이버페이" onclick="pay('nvpay')"/>
+            <input type="button" class="payBtn" value="카카오페이 정기결제(빌키발급)" onclick="pay('kakaoAuto')"/>
+            <input type="button" class="payBtn" value="네이버페이 정기결제(빌키발급)" onclick="pay('nvpayAuto')"/>
         </div>
     </form>
 </div>
@@ -360,6 +429,59 @@ function goResult(){
         <input type="hidden" name="crcCd" value="KRW" />                	<!-- 통화구분 -->
         <input type="hidden" name="prdtNm" value="테스트상품" />           		<!-- 상품명 -->
         <input type="hidden" name="sellerNm" value="세틀뱅크" />           	<!-- 판매자명 -->
+        <input type="hidden" name="ordNm" value="홍길동" />                	<!-- 주문자명 -->
+    </form>
+</div>
+
+<div class="wrapper">  
+    <form id="STPG_payForm3" name="STPG_payForm3" >
+        <div class="tab">간편(카카오페이/네이버페이) 정기결제 API (Non-UI)</div>
+        <!-- 결제 요청 파라미터(Header) -->
+        <input type="hidden" name="ver" value="0A19" />                     <!-- 버전(0A**, **:메뉴얼버전) -->
+        <input type="hidden" name="method" value="PZ" />                    <!-- 결제수단(PZ:간편결제) -->
+        <input type="hidden" name="bizType" value="B3" />                   <!-- 업무구분(B3:정기결제, S1:상태조회, C1:키삭제) 버튼에 따라 세팅됨 -->
+        <input type="hidden" name="encCd" value="23" />                     <!-- 암호화구분 -->
+        <input type="hidden" name="mchtTrdNo" value="" />                   <!-- 상점주문번호 -->
+        <input type="hidden" name="trdDt" value="" />                       <!-- 요청일자(yyyyMMdd) -->
+        <input type="hidden" name="trdTm" value="" />                       <!-- 요청시간(HHmmss) -->
+        <input type="hidden" name="mobileYn" value="N" />                   <!-- 모바일여부(Y, N) -->
+        <input type="hidden" name="osType" value="W" />                     <!-- OS구분(A:Android, I:IOS, W:Windows, M:Mac, E:others)-->
+
+        <!-- 결제 요청 파라미터(Body) -->
+        <table>
+            <tr>
+                <td class="left">간편결제사</td>
+                <td class="right">
+                    <select name="corpPayCode" onchange="subsMidChange(this.value)">
+                        <option value="KKP">KKP : 카카오페이</option>
+                        <option value="NVP">NVP : 네이버페이</option>
+                    </select>
+                    <span>간편결제사별 정기결제 상점아이디가 상이하여 선택 시 자동 교체됩니다.</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="left">상점아이디</td>
+                <td class="right"><input type="text" name="mchtId" value="<%= SUBS_MID_KAKAO %>" /></td>
+            </tr>
+            <tr>
+                <td class="left">자동결제키</td>
+                <td class="right"><input type="text" name="billKey" maxlength="50" value="SBILL0000000000000000" /><span>결제창 빌키발급 응답의 billKey</span></td>
+            </tr>
+            <tr>
+                <td class="left">거래금액</td>
+                <td class="right"><input type="text" name="trdAmt" maxlength="12" value="300" /><span>정기결제 시에만 사용</span></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="right" style="text-align: center;">
+                    <input class="payBtn" type="button" value="정기결제 하기" style="width:33%;" onclick="subsApi('pay')"/>
+                    <input class="payBtn" type="button" value="빌키 상태조회" style="width:32%;" onclick="subsApi('status')"/>
+                    <input class="payBtn" type="button" value="빌키 삭제" style="width:32%;" onclick="subsApi('delkey')"/>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" name="mUserId" value="HongGilDong" />      	<!-- 상점고객아이디(빌키 발급 시 사용한 값과 동일해야 함) -->
+        <input type="hidden" name="crcCd" value="KRW" />                	<!-- 통화구분 -->
+        <input type="hidden" name="prdtNm" value="테스트상품" />           		<!-- 상품명 -->
         <input type="hidden" name="ordNm" value="홍길동" />                	<!-- 주문자명 -->
     </form>
 </div>

@@ -7,15 +7,26 @@
         nxca_jt_il : 신용카드 인증 결제
         nxca_jt_bi : 신용카드 비인증 결제
         nxca_jt_gu : 신용카드 구인증 결제
-       	nxca_payco : 페이코 간편결제
-       	nxca_kakao : 카카오 간편결제
+       	hecto_test : 페이코/카카오페이/네이버페이 간편결제
         nxhp_pl_il : 휴대폰 일반 결제
         nxhp_pl_hd : 휴대폰 인증/승인 분리형
         nxhp_pl_ma : 휴대폰 월 자동 결제
         nxpt_kt_il : 포인트 결제
+        nxkkp_auto : 카카오페이 정기결제(자동결제)
+        nxnvp_auto : 네이버페이 정기결제(자동결제)
     상용서비스시에는 세틀뱅크에서 발급한 상점 고유 MID를 설정하십시오.
 */
 final String PG_MID = "nx_mid_il";
+
+
+/**
+    ===== 간편결제 정기결제(자동결제) MID =====
+    간편결제 정기결제는 간편결제사별로 별도의 상점아이디를 사용합니다. (카카오페이/네이버페이 상이)
+    테스트환경에서는 카카오페이 nxkkp_auto, 네이버페이 nxnvp_auto를 사용하시면 됩니다.
+    상용서비스시에는 정기결제 서비스가 설정된 상점 고유 MID를 영업 담당자를 통해 발급받아 설정하십시오.
+*/
+final String SUBS_MID_KAKAO = "nxkkp_auto";
+final String SUBS_MID_NAVER = "nxnvp_auto";
 
 
 /**

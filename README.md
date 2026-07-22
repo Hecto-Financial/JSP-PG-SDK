@@ -59,6 +59,8 @@ TLS 1.2 이상 프로토콜만 활성화합니다.
     │  pay_form.jsp		<--- 결제시 메인 폼
     │  pay_encryptParams.jsp	<--- 결제시 파라미터 암호화 및 해쉬 처리 페이지
      |   pay_autoPayResult.jsp		<--- 휴대폰 자동연장결제시 사용되는 페이지
+    │  pay_subsPayResult.jsp		<--- 간편(카카오페이/네이버페이) 정기결제시 사용되는 페이지
+    │  pay_subsManageResult.jsp	<--- 간편 정기결제 빌키 상태조회/삭제 페이지
     │  pay_receiveResult.jsp		<--- 결제 완료 후 응답파라미터 수신페이지
     │  pay_showResult.jsp		<--- 자식페이지에서 전달된 응답파라미터 출력
      |   
@@ -87,6 +89,8 @@ TLS 1.2 이상 프로토콜만 활성화합니다.
 - **pay_receiveResult.jsp**: 결제창에서 결제가 완료된 이후 닫기 버튼을 누를 때, 헥토파이낸셜로부터 응답 파라미터를 수신하는 페이지입니다.
 - **pay_showResult.jsp**: pay_receiveResult.jsp에서 받은 파라미터를 부모창으로 전송할 수 있는데, 이때 전송된 파라미터들을 수신하여 출력하는 페이지입니다.
 - **pay_autoPayResult.jsp**: 휴대폰 자동연장결제 시 사용되는 결제 및 결과화면 페이지입니다.
+- **pay_subsPayResult.jsp**: 간편결제(카카오페이/네이버페이) 정기결제 2회차 이후 결제 시 사용되는 결제 및 결과화면 페이지입니다. 결제창에서 발급받은 빌키(billKey)로 결제합니다.
+- **pay_subsManageResult.jsp**: 간편 정기결제 빌키의 상태조회 및 삭제 요청을 처리하고 결과를 출력하는 페이지입니다.
 
 ### ❌ 취소 관련 페이지
 - **cancel_form.jsp**: 취소 요청 시 사용자로부터 정보를 입력받는 Form 페이지입니다.
@@ -96,12 +100,16 @@ TLS 1.2 이상 프로토콜만 활성화합니다.
 
 - **결제 처리 순서**: pay_form.jsp → pay_encryptParams.jsp → pay_receiveResult.jsp → pay_showResult.jsp
 - **휴대폰 자동연장 결제**: pay_form.jsp → pay_autoPayResult.jsp
+- **간편 정기결제 빌키 발급(1회차)**: pay_form.jsp(정기결제 전용 상점아이디 + autoPayType=A로 결제창 호출) → pay_receiveResult.jsp(응답의 billKey 보관)
+- **간편 정기결제(2회차 이후)**: pay_form.jsp → pay_subsPayResult.jsp
+- **간편 정기결제 빌키 상태조회/삭제**: pay_form.jsp → pay_subsManageResult.jsp
 - **취소 처리 순서**: cancel_form.jsp → cancel_showResult.jsp
 - **노티 처리 순서**: receiveNoti.jsp → processNoti.jsp
 
 ## ⚙️ config.jsp 설정 파일 변수 설명
 
 - **PG_MID**: 상점아이디. 테스트환경에서의 상점아이디는 샘플소스에 기재되어 있습니다. 상용테스트 시에는 헥토파이낸셜에서 발급한 MID로 설정하셔야 합니다. 이 값은 외부에 노출되어서는 안됩니다.
+- **SUBS_MID_KAKAO / SUBS_MID_NAVER**: 간편결제 정기결제 전용 상점아이디입니다. 간편결제사별로 상점아이디가 상이하며, 테스트 MID는 카카오페이 `nxkkp_auto`, 네이버페이 `nxnvp_auto`입니다. 상용 시에는 정기결제 서비스가 설정된 가맹점 MID를 영업 담당자를 통해 발급받아 교체합니다.
 - **LICENSE_KEY**: MID당 하나의 라이센스키가 발급됩니다. SHA256 해시체크 용도로 사용됩니다. 이 값은 외부에 노출되어서는 안됩니다.
 - **AES256_KEY**: 개인정보/민감정보를 암복호화하는데 사용되는 키로서, 외부에 노출되어서는 안됩니다.
 - **PAYMENT_SERVER**: 헥토파이낸셜 결제 처리 서버의 URL입니다. 변경하지 마십시오.
