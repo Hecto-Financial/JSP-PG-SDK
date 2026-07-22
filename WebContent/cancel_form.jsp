@@ -102,6 +102,20 @@ REQ_PARAMS.corp = {
     svcAmt : '봉사료'
 };
 
+/** 취소 대상 원거래 결제수단별 테스트 상점아이디(운영 적용 시 자사 발급 MID로 변경)
+    취소는 원거래와 동일한 상점아이디로 요청해야 합니다. */
+var MID_BY_TYPE = {
+    card : 'nxca_jt_il',                    //신용카드 인증 결제
+    mobile : 'nxhp_pl_il',                  //휴대폰 일반 결제
+    mobileRefund : 'nxhp_pl_il',            //휴대폰 결제 환불
+    point : 'nxpt_kt_il',                   //KT클립포인트
+    corpPayco : 'hecto_test',               //페이코 간편결제
+    corpKakao : 'hecto_test',               //카카오페이 간편결제
+    corpNvpay : 'hecto_test',               //네이버페이 간편결제
+    corpSubsKakao : '<%= SUBS_MID_KAKAO %>',//카카오페이 정기결제
+    corpSubsNvpay : '<%= SUBS_MID_NAVER %>' //네이버페이 정기결제
+};
+
 //날짜 및 결제수단 등 재설정. 결제수단에 따른 FORM양식 변경
 function init(type){
     var curr_date = new Date();
@@ -117,6 +131,9 @@ function init(type){
     $('#STPG_cnclForm [name="trdDt"]').val(year + month + day); //취소요청일자 세팅
     $('#STPG_cnclForm [name="trdTm"]').val(hours + mins + secs);//취소요청시간 세팅
     $('#STPG_cnclForm [name="mchtTrdNo"]').val("CANCEL" + year + month + day + hours + mins + secs + random4);//취소주문번호 세팅
+
+    //원거래 결제수단에 맞는 상점아이디 세팅(매핑에 없는 결제수단은 기본 MID 사용)
+    $('#STPG_cnclForm [name="mchtId"]').val( MID_BY_TYPE[type] || '<%= PG_MID %>' );
 
     /***********************************************************************************************************************
      * 
@@ -183,7 +200,7 @@ function init(type){
     	$('#STPG_cnclForm [name="method"]').val('CP');
         $('#STPG_cnclForm [name="bizType"]').val('C0');
         formType = 'common';
-    }else if('corp' === type){
+    }else if( 0 === type.indexOf('corp') ){//간편결제(페이코/카카오페이/네이버페이/정기결제) 취소 - 간편결제사별 상점아이디 상이
     	$('#STPG_cnclForm [name="method"]').val('PZ');
         $('#STPG_cnclForm [name="bizType"]').val('C0');
         formType = 'corp';
@@ -254,7 +271,7 @@ function menuAction(type){
 <button onclick="location.href='pay_form.jsp'">결제 샘플로</button>
 <button onclick="location.href='cancel_form.jsp'">취소 샘플로</button>
 <h2>결제수단별 취소 API (Non-UI)</h2>
-<h4>현재 설정된 상점아이디 >>> <%= PG_MID %></h4>
+<h4>취소 메뉴 선택 시 원거래 결제수단에 맞는 테스트 상점아이디가 자동 세팅됩니다. 취소는 원거래와 동일한 상점아이디로 요청해야 합니다.</h4>
 <hr>
 <div class="wrapper">
     <div class="menu">
@@ -271,12 +288,21 @@ function menuAction(type){
         <div class="menuBtn" onclick="menuAction('booknlife');">도서상품권 취소</div>
         <div class="menuBtn" onclick="menuAction('tmoney');">티머니 취소</div>
         <div class="menuBtn" onclick="menuAction('point');">KT클립포인트 취소</div>
-        <div class="menuBtn" onclick="menuAction('corp');">간편결제 취소</div>
+        <div class="menuBtn" onclick="menuAction('corpPayco');">간편결제 취소(페이코)</div>
+        <div class="menuBtn" onclick="menuAction('corpKakao');">간편결제 취소(카카오페이)</div>
+        <div class="menuBtn" onclick="menuAction('corpNvpay');">간편결제 취소(네이버페이)</div>
+        <div class="menuBtn" onclick="menuAction('corpSubsKakao');">정기결제 취소(카카오페이)</div>
+        <div class="menuBtn" onclick="menuAction('corpSubsNvpay');">정기결제 취소(네이버페이)</div>
     </div>
     <div class="contents">
     <form id="STPG_cnclForm" name="STPG_cnclForm" >
         <!-- 요청 헤더 -->
-        <input type="hidden" name="mchtId" value="<%= PG_MID %>" />  <!-- 상점아이디 -->
+        <table>
+            <tr>
+                <td class="left">상점아이디</td>
+                <td class="right"><input type="text" name="mchtId" value="<%= PG_MID %>" /><span>메뉴 선택 시 자동 교체</span></td>
+            </tr>
+        </table>
         <input type="hidden" name="ver" value="0A19" />                     <!-- 버전(0A**, **:메뉴얼버전) -->
         <input type="hidden" name="method" value="" />                      <!-- 취소할 결제수단 -->
         <input type="hidden" name="bizType" value="" />                     <!-- 업무구분 -->

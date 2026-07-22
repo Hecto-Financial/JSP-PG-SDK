@@ -64,6 +64,8 @@ TLS 1.2 이상 프로토콜만 활성화합니다.
     ├── pay_receiveResult.jsp           # 결제 완료 후 응답 파라미터 수신 페이지
     ├── pay_showResult.jsp              # 결제 결과 출력 페이지
     ├── pay_autoPayResult.jsp           # 휴대폰 자동연장 결제 결과 페이지
+    ├── pay_subsPayResult.jsp           # 간편(카카오페이/네이버페이) 정기결제 결과 페이지
+    ├── pay_subsManageResult.jsp        # 간편 정기결제 빌키 상태조회/삭제 페이지
     ├── cancel_form.jsp                 # 취소 요청 폼
     ├── cancel_showResult.jsp           # 취소 처리 및 결과 화면
     ├── receiveNoti.jsp                 # 결제/취소 완료 후 노티 수신 페이지
@@ -88,6 +90,8 @@ TLS 1.2 이상 프로토콜만 활성화합니다.
 - **pay_receiveResult.jsp**: 결제창에서 결제 완료 후 응답 파라미터를 수신하는 페이지입니다.
 - **pay_showResult.jsp**: `pay_receiveResult.jsp`로부터 파라미터를 전달받아 결제 결과를 출력합니다.
 - **pay_autoPayResult.jsp**: 휴대폰 자동연장 결제 시 사용되는 결제 및 결과 페이지입니다.
+- **pay_subsPayResult.jsp**: 간편결제(카카오페이/네이버페이) 정기결제 2회차 이후 결제 시 사용되는 결제 및 결과 페이지입니다. 결제창에서 발급받은 빌키(billKey)로 결제합니다.
+- **pay_subsManageResult.jsp**: 간편 정기결제 빌키의 상태조회 및 삭제 요청을 처리하고 결과를 출력하는 페이지입니다.
 
 ### 취소 관련 파일
 - **cancel_form.jsp**: 취소 요청 시 필요한 정보를 입력받는 폼 페이지입니다.
@@ -99,6 +103,9 @@ TLS 1.2 이상 프로토콜만 활성화합니다.
 |------|------|
 | 결제 | pay_form.jsp → pay_encryptParams.jsp(AJAX) → pay_receiveResult.jsp → pay_showResult.jsp |
 | 휴대폰 자동연장 결제 | pay_form.jsp → pay_autoPayResult.jsp |
+| 간편 정기결제 빌키 발급(1회차) | pay_form.jsp(정기결제 전용 상점아이디 + autoPayType=A) → pay_receiveResult.jsp(응답의 billKey 보관) |
+| 간편 정기결제(2회차 이후) | pay_form.jsp → pay_subsPayResult.jsp |
+| 간편 정기결제 빌키 상태조회/삭제 | pay_form.jsp → pay_subsManageResult.jsp |
 | 취소 | cancel_form.jsp → cancel_showResult.jsp |
 | 노티 | receiveNoti.jsp → processNoti.jsp |
 
@@ -107,6 +114,7 @@ TLS 1.2 이상 프로토콜만 활성화합니다.
 | 변수명 | 설명 |
 |--------|------|
 | `PG_MID` | 상점아이디. 테스트용 MID는 소스에 기재되어 있습니다. 운영 시 헥토파이낸셜에서 발급한 MID로 교체하세요. **외부 노출 금지** |
+| `SUBS_MID_KAKAO` / `SUBS_MID_NAVER` | 간편결제 정기결제 전용 상점아이디. 간편결제사별로 상이하며 테스트 MID는 카카오페이 `nxkkp_auto`, 네이버페이 `nxnvp_auto`입니다. 운영 시 정기결제 서비스가 설정된 MID를 영업 담당자를 통해 발급받아 교체하세요. |
 | `LICENSE_KEY` | MID당 1개 발급되는 라이센스키. SHA256 해시 생성에 사용됩니다. **외부 노출 금지** |
 | `AES256_KEY` | 개인정보/민감정보 AES256 암복호화에 사용되는 키. **외부 노출 금지** |
 | `PAYMENT_SERVER` | 헥토파이낸셜 결제창 서버 URL. 테스트/운영 서버 주석을 전환하여 사용합니다. |
