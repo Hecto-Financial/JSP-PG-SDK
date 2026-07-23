@@ -11,7 +11,7 @@ String outRsltMsg       = StringUtil.isNull(request.getParameter("respOutRsltMsg
 String method           = StringUtil.isNull(request.getParameter("respMethod"));            //결제수단
 String mchtTrdNo        = StringUtil.isNull(request.getParameter("respMchtTrdNo"));         //상점주문번호
 String mchtCustId       = StringUtil.isNull(request.getParameter("respMchtCustId"));        //상점고객아이디
-String trdNo            = StringUtil.isNull(request.getParameter("respTrdNo"));             //세틀뱅크 거래번호
+String trdNo            = StringUtil.isNull(request.getParameter("respTrdNo"));             //헥토파이낸셜 거래번호
 String trdAmt           = StringUtil.isNull(request.getParameter("respTrdAmt"));            //거래금액
 String mchtParam        = StringUtil.isNull(request.getParameter("respMchtParam"));         //상점예약필드
 String authDt           = StringUtil.isNull(request.getParameter("respAuthDt"));            //승인일시
@@ -81,7 +81,7 @@ String csrcAmt          = StringUtil.isNull(request.getParameter("respCsrcAmt"))
             <td class="right"><%= escapeHtml(mchtCustId) %></td>
         </tr>
         <tr>
-            <td class="left">trdNo[세틀뱅크거래번호]</td>
+            <td class="left">trdNo[헥토파이낸셜거래번호]</td>
             <td class="right"><%= escapeHtml(trdNo) %></td>
         </tr>
         <tr>

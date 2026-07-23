@@ -26,7 +26,7 @@ RES_PARAMS.put("outRsltMsg",        StringUtil.isNull(request.getParameter("outR
 RES_PARAMS.put("method",            StringUtil.isNull(request.getParameter("method")));             //결제수단
 RES_PARAMS.put("mchtTrdNo",         StringUtil.isNull(request.getParameter("mchtTrdNo")));          //상점주문번호
 RES_PARAMS.put("mchtCustId",        StringUtil.isNull(request.getParameter("mchtCustId")));         //상점고객아이디
-RES_PARAMS.put("trdNo",             StringUtil.isNull(request.getParameter("trdNo")));              //세틀뱅크 거래번호
+RES_PARAMS.put("trdNo",             StringUtil.isNull(request.getParameter("trdNo")));              //헥토파이낸셜 거래번호
 RES_PARAMS.put("trdAmt",            StringUtil.isNull(request.getParameter("trdAmt")));             //거래금액
 RES_PARAMS.put("mchtParam",         StringUtil.isNull(request.getParameter("mchtParam")));          //상점 예약필드
 RES_PARAMS.put("authDt",            StringUtil.isNull(request.getParameter("authDt")));             //승인일시
