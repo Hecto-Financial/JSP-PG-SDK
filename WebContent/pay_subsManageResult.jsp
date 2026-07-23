@@ -55,7 +55,7 @@ RES_HEADER.put("method", "");       //결제수단
 RES_HEADER.put("bizType", "");      //업무구분
 RES_HEADER.put("encCd", "");        //암호화구분
 RES_HEADER.put("mchtTrdNo", "");    //상점주문번호
-RES_HEADER.put("trdNo", "");        //세틀뱅크거래번호
+RES_HEADER.put("trdNo", "");        //헥토파이낸셜거래번호
 RES_HEADER.put("trdDt", "");        //요청일자
 RES_HEADER.put("trdTm", "");        //요청시간
 RES_HEADER.put("outStatCd", "");    //결과코드
@@ -97,14 +97,14 @@ String requestUrl = apiHost + apiPath; //간편 정기결제 빌키 상태조회
 
 
 //요청파라미터 세팅
-//params, data 이름은 세틀로 전달되야 하는 값이니 변경하지 마십시오.
+//params, data 이름은 헥토파이낸셜로 전달되어야 하는 값이니 변경하지 마십시오.
 Map<String,Object> reqParam = new HashMap<String,Object>();
 reqParam.put("params", REQ_HEADER );
 reqParam.put("data", REQ_BODY);
 
 
 /** ======================================================================
-                            API호출(가맹점->세틀) 및 응답 처리
+                            API호출(가맹점->헥토파이낸셜) 및 응답 처리
         간편 정기결제 상태조회/키삭제 API는 노티 전문이 없으므로 응답 전문으로 결과를 확인합니다.
     ======================================================================   */
 Map<String, String> respParam = new HashMap<String, String>();
@@ -199,7 +199,7 @@ try{
             <td class="right"><%= escapeHtml(respParam.get("mchtTrdNo")) %></td>
         </tr>
         <tr>
-            <td class="left">trdNo[세틀뱅크 거래번호]</td>
+            <td class="left">trdNo[헥토파이낸셜 거래번호]</td>
             <td class="right"><%= escapeHtml(respParam.get("trdNo")) %></td>
         </tr>
         <tr>
