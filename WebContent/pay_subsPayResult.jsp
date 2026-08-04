@@ -56,7 +56,7 @@ RES_HEADER.put("method", "");       //결제수단
 RES_HEADER.put("bizType", "");      //업무구분
 RES_HEADER.put("encCd", "");        //암호화구분
 RES_HEADER.put("mchtTrdNo", "");    //상점주문번호
-RES_HEADER.put("trdNo", "");        //세틀뱅크거래번호
+RES_HEADER.put("trdNo", "");        //헥토파이낸셜거래번호
 RES_HEADER.put("trdDt", "");        //요청일자
 RES_HEADER.put("trdTm", "");        //요청시간
 RES_HEADER.put("outStatCd", "");    //결과코드
@@ -248,7 +248,7 @@ try{
             <td class="right"><%= escapeHtml(respParam.get("mchtTrdNo")) %></td>
         </tr>
         <tr>
-            <td class="left">trdNo[세틀뱅크 거래번호]</td>
+            <td class="left">trdNo[헥토파이낸셜 거래번호]</td>
             <td class="right"><%= escapeHtml(respParam.get("trdNo")) %></td>
         </tr>
         <tr>
