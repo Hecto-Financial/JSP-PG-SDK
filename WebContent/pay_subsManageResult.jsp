@@ -97,14 +97,14 @@ String requestUrl = apiHost + apiPath; //간편 정기결제 빌키 상태조회
 
 
 //요청파라미터 세팅
-//params, data 이름은 세틀로 전달되야 하는 값이니 변경하지 마십시오.
+//params, data 이름은 헥토파이낸셜로 전달되어야 하는 값이니 변경하지 마십시오.
 Map<String,Object> reqParam = new HashMap<String,Object>();
 reqParam.put("params", REQ_HEADER );
 reqParam.put("data", REQ_BODY);
 
 
 /** ======================================================================
-                            API호출(가맹점->세틀) 및 응답 처리
+                            API호출(가맹점->헥토파이낸셜) 및 응답 처리
         간편 정기결제 상태조회/키삭제 API는 노티 전문이 없으므로 응답 전문으로 결과를 확인합니다.
     ======================================================================   */
 Map<String, String> respParam = new HashMap<String, String>();
