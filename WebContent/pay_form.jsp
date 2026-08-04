@@ -114,7 +114,7 @@ function pay(type){
                 $('#STPG_payForm [name='+name+']').val( rsp.encParams[name] );
             };
             
-            //가맹점 -> 세틀뱅크로 결제 요청
+            //가맹점 -> 헥토파이낸셜로 결제 요청
             SETTLE_PG.pay({
                 env : "<%= PAYMENT_SERVER %>",   //결제서버 URL
                 mchtId : $('#STPG_payForm [name="mchtId"]').val(),
@@ -279,8 +279,8 @@ function goResult(){
         <input type="hidden" name="trdDt" value="" />                                           <!-- 요청일자(yyyyMMdd) -->
         <input type="hidden" name="trdTm" value="" />                                           <!-- 요청시간(HHmmss)-->
         <input type="hidden" name="mchtTrdNo" value="" />                                       <!-- 상점주문번호 -->
-        <input type="hidden" name="mchtName" value="세틀뱅크" />                                   <!-- 상점한글명 -->
-        <input type="hidden" name="mchtEName" value="Settlebank" />                             <!-- 상점영문명 -->
+        <input type="hidden" name="mchtName" value="헥토파이낸셜" />                                   <!-- 상점한글명 -->
+        <input type="hidden" name="mchtEName" value="HectoFinancial" />                             <!-- 상점영문명 -->
         <input type="hidden" name="pmtPrdtNm" value="테스트상품" />                                 <!-- 상품명 -->
         <input type="hidden" name="notiUrl" value="http://localhost/receiveNoti.jsp" />         <!-- 결과처리 URL -->
         <input type="hidden" name="nextUrl" value="http://localhost/pay_receiveResult.jsp" />   <!-- 결과화면 URL -->
@@ -288,7 +288,7 @@ function goResult(){
 
         <!-- 승인 요청 파라미터(옵션) -->
         <input type="hidden" name="plainMchtCustNm" value="홍길동" />             <!-- 고객명(평문) -->
-        <input type="hidden" name="custAcntSumry" value="세틀뱅크" />              <!-- 통장인자내용 -->
+        <input type="hidden" name="custAcntSumry" value="헥토파이낸셜" />              <!-- 통장인자내용 -->
         <input type="hidden" name="expireDt" value="" />                        <!-- 입금만료일시(yyyyMMddHHmmss) -->
         <input type="hidden" name="mchtParam" value="상점 예약 필드" />          		<!-- 상점예약필드 -->
         <input type="hidden" name="plainCphoneNo" value="" />                   <!-- 핸드폰번호(평문) -->
@@ -327,7 +327,7 @@ function goResult(){
         <input type="hidden" name="respMethod" />           <!-- 결제수단 -->
         <input type="hidden" name="respMchtTrdNo" />        <!-- 상점주문번호 -->
         <input type="hidden" name="respMchtCustId" />       <!-- 상점고객아이디 -->
-        <input type="hidden" name="respTrdNo" />            <!-- 세틀뱅크 거래번호 -->
+        <input type="hidden" name="respTrdNo" />            <!-- 헥토파이낸셜 거래번호 -->
         <input type="hidden" name="respTrdAmt" />           <!-- 거래금액 -->
         <input type="hidden" name="respMchtParam" />        <!-- 상점예약필드 -->
         <input type="hidden" name="respAuthDt" />           <!-- 승인일시 -->
@@ -428,7 +428,7 @@ function goResult(){
         <input type="hidden" name="mUserId" value="HongGilDong" />      	<!-- 상점고객아이디-->
         <input type="hidden" name="crcCd" value="KRW" />                	<!-- 통화구분 -->
         <input type="hidden" name="prdtNm" value="테스트상품" />           		<!-- 상품명 -->
-        <input type="hidden" name="sellerNm" value="세틀뱅크" />           	<!-- 판매자명 -->
+        <input type="hidden" name="sellerNm" value="헥토파이낸셜" />           	<!-- 판매자명 -->
         <input type="hidden" name="ordNm" value="홍길동" />                	<!-- 주문자명 -->
     </form>
 </div>
