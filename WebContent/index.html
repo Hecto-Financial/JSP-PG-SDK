@@ -4,11 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Insert title here</title>
-<script>
-location.href = 'pay_form.jsp';
-</script>
+<title>헥토파이낸셜 PG 결제창(UI) 샘플</title>
+<style type="text/css">
+    body    {font-family:굴림; font-size:10pt;}
+    .wrapper{width:470px; border:1px solid #e1e1e1; margin-top:20px;}
+    .tab    {background-color:#f1f1f1; padding:10px 20px; border:1px solid #e1e1e1; font-weight:bold; font-size:1.1em;}
+    a.menu  {display:block; padding:12px 20px; border:1px solid #e1e1e1; text-decoration:none; color:#000;}
+    a.menu:hover {background-color:#ddd;}
+    small   {color:gray;}
+</style>
 </head>
-<body> 
+<body>
+<div class="wrapper">
+    <div class="tab">헥토파이낸셜 PG 결제창(UI) 샘플</div>
+    <a class="menu" href="pay_form.jsp">결제 (표준 결제창)<br><small>신용카드·계좌이체·가상계좌·간편결제 등</small></a>
+    <a class="menu" href="cardReg_form.jsp">신용카드 0원 등록 (빌키발급)<br><small>0원 인증으로 카드 등록 후 정기결제용 빌키 발급</small></a>
+    <a class="menu" href="billkey_pay_form.jsp">신용카드 빌키 결제 (2회차)<br><small>발급받은 빌키로 정기/반복 결제</small></a>
+    <a class="menu" href="cancel_form.jsp">취소<br><small>결제 건 전체/부분 취소</small></a>
+</div>
 </body>
 </html>
