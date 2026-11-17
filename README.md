@@ -69,6 +69,8 @@ TLS 1.2 이상 프로토콜만 활성화합니다.
     ├── cardReg_form.jsp                # 신용카드 0원 등록(빌키발급) 결제창 호출 폼
     ├── billkey_pay_form.jsp            # 신용카드 빌키 결제(2회차) 요청 폼
     ├── billkey_pay_showResult.jsp      # 신용카드 빌키 결제 처리 및 결과 화면
+    ├── delKey_form.jsp                 # 신용카드 빌키 삭제 요청 폼
+    ├── delKey_showResult.jsp           # 신용카드 빌키 삭제 처리 및 결과 화면
     ├── cancel_form.jsp                 # 취소 요청 폼
     ├── cancel_showResult.jsp           # 취소 처리 및 결과 화면
     ├── receiveNoti.jsp                 # 결제/취소 완료 후 노티 수신 페이지
@@ -100,6 +102,8 @@ TLS 1.2 이상 프로토콜만 활성화합니다.
 - **cardReg_form.jsp**: 신용카드 **0원 등록(빌키발급) 결제창**을 호출하는 폼입니다. 실제 결제(승인) 없이 0원 인증으로 카드를 등록하고 정기결제용 빌키(`billKey`)를 발급받습니다. SDK의 `method="card"` + `methodSub="auth"` 조합으로 빌키발급창(`/card/cardAuth.do`)을 띄우며, `pay_encryptParams.jsp`와 `pay_receiveResult.jsp`를 재사용합니다.
 - **billkey_pay_form.jsp**: 발급받은 빌키로 2회차 결제를 요청하는 폼입니다. 결제수단(`method=CA`), 업무구분(`bizType=B0`)은 신용카드 빌키 결제 고정값입니다.
 - **billkey_pay_showResult.jsp**: 게이트웨이(`/spay/APICardActionPay.do`)와 Server to Server(JSON) 통신으로 빌키 결제를 요청하고 결과를 출력합니다. 빌키 결제 전용이며 카드번호 직접 입력(수기결제)은 지원하지 않습니다.
+- **delKey_form.jsp**: 발급받은 빌키를 삭제(해지)하는 폼입니다. 업무구분(`bizType=A1`)은 빌키 삭제 고정값입니다.
+- **delKey_showResult.jsp**: 게이트웨이(`/spay/APICardActionDelkey.do`)와 Server to Server(JSON) 통신으로 빌키 삭제를 요청하고 결과를 출력합니다. 금액이 없으므로 해시 조합의 금액 자리에 `"0"`을 사용하며, 빌키(`billKey`)는 평문으로 전송(암호화 대상 아님)합니다.
 
 > ℹ️ **신용카드 빌키 발급 정책**
 >
@@ -123,6 +127,7 @@ TLS 1.2 이상 프로토콜만 활성화합니다.
 | 간편 정기결제 빌키 상태조회/삭제 | pay_form.jsp → pay_subsManageResult.jsp |
 | 신용카드 0원 등록(빌키발급) | cardReg_form.jsp → pay_encryptParams.jsp(AJAX) → (빌키발급 결제창) → pay_receiveResult.jsp(응답의 billKey 보관) |
 | 신용카드 빌키 결제(2회차) | billkey_pay_form.jsp → billkey_pay_showResult.jsp |
+| 신용카드 빌키 삭제 | delKey_form.jsp → delKey_showResult.jsp |
 | 취소 | cancel_form.jsp → cancel_showResult.jsp |
 | 노티 | receiveNoti.jsp → processNoti.jsp |
 
